@@ -6,8 +6,8 @@ Our benchmarks wrote to every address in the MMAPed range. We also tried other v
 
 - What performance differences did you see?
 
-Huge versus base: 0.0056s vs 0.0058s on average over 10 runs
-Populate versus base: 0.1664s vs 0.1769s on average over 10 runs
+Huge versus base: 0.0056s vs 0.0058s on average over 10 runs for "file" size 1048576 [1.05 MB]
+Populate versus base: 0.1664s vs 0.1769s on average over 10 runs for file size 68461064 [68.5 MB]
 
 - If you have time / interest, lets try to look at what exactly caused these
 performance differences above. Our hardware has special performance counters
