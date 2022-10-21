@@ -1,9 +1,13 @@
+~~~~ Alan Baade, Karan Gurazada, Alex Huang ~~~~
+
 - How did you design your benchmarks?
-Our benchmarks just wrote to every address in the MMAPed range.
+
+Our benchmarks wrote to every address in the MMAPed range. We also tried other versions that only wrote to one address per page. This triggers the page fault handler as frequently as possible, which disadvantages small pages and demand paging.
 
 - What performance differences did you see?
-Huge versus base: 0.00563785s vs 0.00585105s
-Populate versus base: 0.166414s vs 0.175814s
+
+Huge versus base: 0.0056s vs 0.0058s on average over 10 runs
+Populate versus base: 0.1664s vs 0.1769s on average over 10 runs
 
 - If you have time / interest, lets try to look at what exactly caused these
 performance differences above. Our hardware has special performance counters
@@ -13,3 +17,4 @@ commandline tool. `perf list` will print a list of all the counters your
 hardware + OS support. Which counters did you find most interesting? What
 results did you observe?
 
+This seems cool.
