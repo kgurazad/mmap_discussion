@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string.h>
 #include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 int main(int argc, char** argv){
     std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -21,23 +24,27 @@ int main(int argc, char** argv){
     // read / write / mmap
 
     int fd = open("data", O_RDWR);
-
+    struct stat statbuf;
+    fstat(fd, &statbuf);
+    int size = statbuf.st_size;
+    printf("size is %d\n", size);
+    
     void* addr;
 
     // easy / hacky way to pass cmdline args
     if (argc == 1){
         // do demand paging if no additional args
         printf("Demand paging\n");
-        addr = 0; // TODO
+        addr = mmap(addr, size, PROT_READ | PROT_WRITE, 0, fd, 0);
     }
     else{
         // load all at once if additional args
         printf("Map populate\n");
-        addr = 0; // TODO 
+        addr = mmap(addr, size, PROT_READ | PROT_WRITE, MAP_POPULATE, fd, 0);
     }
 
     // Always check your return values!
-    if(addr == MAP_FAILED){
+    if (addr == MAP_FAILED) {
         printf("Oh dear, something went wrong with mmap()! %s\n", strerror(errno));    
     }
 
