@@ -29,18 +29,17 @@ int main(int argc, char** argv){
     int size = statbuf.st_size;
     printf("size is %d\n", size);
     
-    void* addr;
+    void* addr = 0;
 
     // easy / hacky way to pass cmdline args
-    if (argc == 1){
+    if (argc == 1) {
         // do demand paging if no additional args
         printf("Demand paging\n");
-        addr = mmap(addr, size, PROT_READ | PROT_WRITE, 0, fd, 0);
-    }
-    else{
+        addr = mmap(addr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
+    } else {
         // load all at once if additional args
         printf("Map populate\n");
-        addr = mmap(addr, size, PROT_READ | PROT_WRITE, MAP_POPULATE, fd, 0);
+        addr = mmap(addr, size, PROT_READ | PROT_WRITE, MAP_POPULATE | MAP_PRIVATE, fd, 0);
     }
 
     // Always check your return values!
@@ -49,11 +48,13 @@ int main(int argc, char** argv){
     }
 
     // TODO: run benchmark here
-
+    // printf("%s", (char *) addr);
+    for (int i = 0; i < size; i++) {
+        *((int *)(addr + i)) = i;
+    }
+    
     end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
-
-
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
     std::cout << "finished computation at " << std::ctime(&end_time) << "elapsed time: " << elapsed_seconds.count() << "s\n";
