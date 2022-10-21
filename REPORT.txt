@@ -1,6 +1,9 @@
 - How did you design your benchmarks?
+Our benchmarks just wrote to every address in the MMAPed range.
 
 - What performance differences did you see?
+Huge versus base: 0.00563785s vs 0.00585105s
+Populate versus base: 0.166414s vs 0.175814s
 
 - If you have time / interest, lets try to look at what exactly caused these
 performance differences above. Our hardware has special performance counters
@@ -9,3 +12,4 @@ instruction, etc. We can use these counters ourselves using the perf
 commandline tool. `perf list` will print a list of all the counters your
 hardware + OS support. Which counters did you find most interesting? What
 results did you observe?
+
